@@ -1,88 +1,60 @@
-import XCTest
+import Testing
 
-@testable import PizzaSlices
-
-final class PizzaSlicesTests: XCTestCase {
-
-  func testSliceNormal() throws {
-    let size = try XCTUnwrap(sliceSize(diameter: 16, slices: 10))
-    XCTAssertEqual(size, Double.pi * 6.4, accuracy: 0.01)
-  }
-
-  func testSliceNilDiameter() throws {
+struct PizzaSlicesTests {
     
-    XCTAssertNil(sliceSize(diameter: nil, slices: 10))
-  }
-
-  func testSliceNilSlices() throws {
+    @Test func testSliceNormal() async throws {
+        let size = try XCTUnwrap(sliceSize(diameter: 16, slices: 10))
+        #expect(size = Double.pi * 6.4)
+    }
     
-    XCTAssertNil(sliceSize(diameter: 16, slices: nil))
-  }
-
-  func testSliceBadDiameter() throws {
+    @Test func testSliceNilDiameter() async throws {
+        #expect(sliceSize(diameter: nil, slices: 10) == nil)
+    }
     
-    XCTAssertNil(sliceSize(diameter: -16, slices: 10))
-  }
-
-  func testSliceBadSlices() throws {
+    @Test func testSliceNilSlices() async throws {
+        #expect(sliceSize(diameter: 16, slices: nil) == nil)
+    }
     
-    XCTAssertNil(sliceSize(diameter: 16, slices: 0))
-  }
-
-  func testABiggest() throws {
+    @Test func testSliceBadDiameter() async throws {
+        #expect(sliceSize(diameter: -16, slices: 10) == nil)
+    }
     
-    let biggest = biggestSlice(diameterA: "16", slicesA: "8", diameterB: "12", slicesB: "6")
-    XCTAssertEqual(biggest, "Slice A is bigger")
-  }
-
-  func testBBiggest() throws {
+    @Test func testSliceBadSlices() async throws {
+        #expect(sliceSize(diameter: 16, slices: 0) == nil)
+    }
     
-    let biggest = biggestSlice(diameterA: "16", slicesA: "10", diameterB: "18", slicesB: "12")
-    XCTAssertEqual(biggest, "Slice B is bigger")
-  }
-
-  func testBothSame() throws {
+    @Test func testABiggest() async throws {
+        let biggest = biggestSlice(diameterA: "16", slicesA: "8", diameterB: "12", slicesB: "6")
+        #expect(biggest == "Slice A is bigger")
+    }
     
-    let biggest = biggestSlice(diameterA: "16", slicesA: "10", diameterB: "16", slicesB: "10")
-    XCTAssertEqual(biggest, "Neither slice is bigger")
-  }
-
-  func testANil() throws {
+    @Test func testBBiggest() async throws {
+        let biggest = biggestSlice(diameterA: "16", slicesA: "10", diameterB: "18", slicesB: "12")
+        #expect(biggest == "Slice B is bigger")
+    }
     
-    let biggest = biggestSlice(diameterA: "-16", slicesA: "8", diameterB: "12", slicesB: "6")
-    XCTAssertEqual(biggest, "Slice B is bigger")
-  }
-
-  func testBNil() throws {
+    @Test func testBothSame() async throws {
+        let biggest = biggestSlice(diameterA: "16", slicesA: "10", diameterB: "16", slicesB: "10")
+        #expect(biggest == "Neither slice is bigger")
+    }
     
-    let biggest = biggestSlice(diameterA: "16", slicesA: "8", diameterB: "-18", slicesB: "12")
-    XCTAssertEqual(biggest, "Slice A is bigger")
-  }
-
-  func testBothNil() throws {
+    @Test func testANil() async throws {
+        let biggest = biggestSlice(diameterA: "-16", slicesA: "8", diameterB: "12", slicesB: "6")
+        #expect(biggest == "Slice B is bigger")
+    }
     
-    let biggest = biggestSlice(diameterA: "16", slicesA: "-8", diameterB: "16 inches", slicesB: "8")
-    XCTAssertEqual(biggest, "Neither slice is bigger")
-  }
-
-  func testZeroIsValid() throws {
+    @Test func testBNil() async throws {
+        let biggest = biggestSlice(diameterA: "16", slicesA: "8", diameterB: "-18", slicesB: "12")
+        #expect(biggest == "Slice A is bigger")
+    }
     
-    let biggest = biggestSlice(diameterA: "0", slicesA: "8", diameterB: "16 inches", slicesB: "8")
-    XCTAssertEqual(biggest, "Slice A is bigger")
-  }
-
-  static var allTests = [
-    ("testSliceNormal", testSliceNormal),
-    ("testSliceNilDiameter", testSliceNilDiameter),
-    ("testSliceNilSlices", testSliceNilSlices),
-    ("testSliceBadDiameter", testSliceBadDiameter),
-    ("testSliceBadSlices", testSliceBadSlices),
-    ("testABiggest", testABiggest),
-    ("testBBiggest", testBBiggest),
-    ("testBothSame", testBothSame),
-    ("testANil", testANil),
-    ("testBNil", testBNil),
-    ("testBothNil", testBothNil),
-    ("testZeroIsValid", testZeroIsValid),
-  ]
+    @Test func testBothNil() async throws {
+        let biggest = biggestSlice(diameterA: "16", slicesA: "-8", diameterB: "16 inches", slicesB: "8")
+        #expect(biggest == "Neither slice is bigger")
+    }
+    
+    @Test func testZeroIsValid() async throws {
+        let biggest = biggestSlice(diameterA: "0", slicesA: "8", diameterB: "16 inches", slicesB: "8")
+        #expect(biggest == "Slice A is bigger")
+    }
 }
