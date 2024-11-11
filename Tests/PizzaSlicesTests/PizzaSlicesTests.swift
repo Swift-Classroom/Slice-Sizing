@@ -1,10 +1,11 @@
 import Testing
+@testable import PizzaSlices
 
 struct PizzaSlicesTests {
     
     @Test func testSliceNormal() async throws {
-        let size = try XCTUnwrap(sliceSize(diameter: 16, slices: 10))
-        #expect(size = Double.pi * 6.4)
+        let size = sliceSize(diameter: 16, slices: 10)
+        #expect((size ?? 0) == Double.pi * 6.4)
     }
     
     @Test func testSliceNilDiameter() async throws {
